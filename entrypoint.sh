@@ -137,7 +137,10 @@ git config -f .gitmodules --get-regexp '^submodule\..*\.path$' |
     do
         url_key=$(echo $path_key | sed 's/\.path/.url/')
         url=$(git config -f .gitmodules --get "$url_key")
-        git submodule add $url $local_path
+        if [ ! -e "$local_path" ]
+	then 
+	    git submodule add $url $local_path
+	fi
     done
 
 echo "[+] Adding git commit"
